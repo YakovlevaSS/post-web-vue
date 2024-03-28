@@ -23,8 +23,10 @@ export default {
     createPost() {
     this.post.id = Date.now();
       this.$emit('create', this.post)
-      this.title = '';
-      this.body = '';
+      this.post = {
+        title: '',
+        body: ''
+      }
     },
   }
 }
