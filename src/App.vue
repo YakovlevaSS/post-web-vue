@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <button @click = "addLike">Like</button>
-    <button @click = "addDisLike">DisLike</button>
-    <div>
-      Кол-во лайков <strong>{{ likes }}</strong>
-    </div>
-    <div>
-      Кол-во дизлайков <strong>{{ dislikes }}</strong>
+  <div class="app">
+    <form @submit.prevent>
+      <h4>Создание поста</h4>
+      <input v-bind:value="title" @input="title = $event.target.value" class="input" type="text" placeholder="Название">
+      <input v-bind:value="body" @input="body = $event.target.value" class="input" type="text" placeholder="Описание">
+      <button class="button" @click="createPost">Cоздать</button>
+    </form>
+    <div class="post" v-for="post in posts">
+      <div><strong>Название: </strong>{{ post.title }}</div>
+      <div><strong>Описание: </strong>{{ post.body }}</div>
     </div>
   </div>
 </template>
@@ -15,40 +17,69 @@
 export default {
   data() {
     return {
-      likes: 0,
-      dislikes: 0
+      posts: [
+        { id: 1, title: 'js', body: 'описание поста 1' },
+        { id: 2, title: 'js 2', body: 'описание поста 2' },
+        { id: 3, title: 'js 3', body: 'описание поста 3' },
+      ],
+      title: '',
+      body: ''
     }
   },
   methods: {
-    addLike() {
-      this.likes += 1;
+    createPost() {
+      const newPost = {
+        id: Date.now(),
+        title: this.title,
+        body: this.body,
+      }
+      this.posts.push(newPost);
+      this.title = '';
+      this.body = '';
     },
-    addDisLike() {
-      this.dislikes += 1;
-    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+.app {
+  padding: 20px;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+form {
+  display: flex;
+  flex-direction: column;
+
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.post {
+  padding: 12px;
+  border: 2px solid teal;
+  border-radius: 6px;
+  margin-top: 12px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid teal;
+  margin-top: 12px;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.button {
+  margin-top: 15px;
+  align-self: flex-end;
+  padding: 6px;
+  background: none;
+  color: teal;
+  border: 1px solid teal;
+  border-radius: 6px;
 }
 </style>
