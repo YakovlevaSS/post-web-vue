@@ -4,13 +4,22 @@
         <input v-model="post.title" class="input" type="text"
             placeholder="Название">
         <input v-model="post.body" class="input" type="text" placeholder="Описание">
-        <button class="button" @click="createPost">Cоздать</button>
+        <my-button 
+        style="align-self: flex-end; margin-top: 15px"
+        @click="createPost"
+        >
+        Cоздать
+      </my-button>
     </form>
 </template>
 
 
 <script>
+import MyButton from "@/components/UI/MyButton.vue"
 export default {
+  components: {
+    MyButton
+  },
     data() {
         return {
             post: {
@@ -49,13 +58,5 @@ form {
   border-radius: 6px;
 }
 
-.button {
-  margin-top: 15px;
-  align-self: flex-end;
-  padding: 6px;
-  background: none;
-  color: teal;
-  border: 1px solid teal;
-  border-radius: 6px;
-}
+
 </style>
