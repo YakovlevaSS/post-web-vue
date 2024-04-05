@@ -44,11 +44,4 @@ form {
 
 }
 
-.input {
-  width: 100%;
-  border: 1px solid teal;
-  margin-top: 12px;
-  padding: 6px;
-  border-radius: 6px;
-}
 </style>
