@@ -1,12 +1,12 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
-    <my-button @click="fetchPosts">Получить посты</my-button>
     <my-button @click="showDialog" style="margin: 15px 0;">Создать пост</my-button>
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost" />
     </my-dialog>
-    <post-list :posts="posts" @remove="removePost" />
+    <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading"/>
+    <div v-else>Идет загрузка...</div>
   </div>
 </template>
 
@@ -22,12 +22,9 @@ export default {
   },
   data() {
     return {
-      posts: [
-        { id: 1, title: 'js', body: 'описание поста 1' },
-        { id: 2, title: 'js 2', body: 'описание поста 2' },
-        { id: 3, title: 'js 3', body: 'описание поста 3' },
-      ],
+      posts: [],
       dialogVisible: false,
+      isPostsLoading: false,
     }
   },
   methods: {
@@ -43,12 +40,19 @@ export default {
     },
     async fetchPosts() {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
-        console.log(response)
+        this.isPostsLoading = true;
+        setTimeout(async() => {
+          const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        this.posts = response.data
+        this.isPostsLoading = false;
+        }, 1000)
       } catch (e) {
         alert('Ошибка')
       }
     }
+  },
+  mounted() {
+    this.fetchPosts();
   }
 }
 </script>
